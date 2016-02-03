@@ -1,5 +1,4 @@
 #include "mini_net_server.h"
-#include "mini_log.h"
 
 
 
@@ -67,6 +66,42 @@ int mini_server_set_connect_type(mini_server_t *sev, int type)
 	sev->connect_type = type;
 	return 0;
 }
+mini_server_conf_t* mini_server_conf(mini_confdata_t *confdata, const char *module) 
+{
+	char conf_prefix[100];
+	char conf_name[100];
+	mini_server_conf_t *server_conf = NULL;
+
+	server_conf = (mini_server_conf_t *) malloc(sizeof(mini_server_conf_t));	
+
+	snprintf(conf_prefix, sizeof(conf_prefix), "_net_server_%s", module);
+
+	snprintf(conf_name, sizeof(conf_name), "%s_server_name", conf_prefix); 
+	mini_getconfstr(confdata, conf_name, server_conf->server_name);
+
+	snprintf(conf_name, sizeof(conf_name), "%s_listen_port", conf_prefix); 
+	mini_getconfint(confdata, conf_name, (int *)&server_conf->listen_port);
+
+	snprintf(conf_name, sizeof(conf_name), "%s_connect_type", conf_prefix); 
+	mini_getconfint(confdata, conf_name, (int *)&server_conf->connect_type);
+
+	snprintf(conf_name, sizeof(conf_name), "%s_read_timeout", conf_prefix); 
+	mini_getconfint(confdata, conf_name, (int *)&server_conf->read_timeout);
+
+	snprintf(conf_name, sizeof(conf_name), "%s_write_timeout", conf_prefix); 
+	mini_getconfint(confdata, conf_name, (int *)&server_conf->write_timeout);
+
+	snprintf(conf_name, sizeof(conf_name), "%s_thread_num", conf_prefix); 
+	mini_getconfint(confdata, conf_name, (int *)&server_conf->thread_num);
+
+	snprintf(conf_name, sizeof(conf_name), "%s_read_size", conf_prefix); 
+	mini_getconfint(confdata, conf_name, (int *)&server_conf->read_size);
+
+	snprintf(conf_name, sizeof(conf_name), "%s_write_size", conf_prefix); 
+	mini_getconfint(confdata, conf_name, (int *) &server_conf->write_size);
+
+	return server_conf;
+}
 int mini_server_load(mini_server_t *sev, mini_server_conf_t *server_conf) 
 {
 	//初始化端口
@@ -86,5 +121,6 @@ int mini_server_load(mini_server_t *sev, mini_server_conf_t *server_conf)
 }
 int mini_server_bind(mini_server_t *sev) {
 	
+	sev = NULL;
 	return 0;
 }

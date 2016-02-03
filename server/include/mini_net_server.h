@@ -3,6 +3,8 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
+#include "mini_log.h"
+#include "mini_conf.h"
 struct mini_server_t
 {
 	u_int 	err_no;			//错误号	
@@ -41,4 +43,5 @@ enum {
 mini_server_t *mini_server_create(const char *server_name);
 int mini_server_set_server_name(mini_server_t *sev, const char *name);
 int mini_server_load(mini_server_t *sev, mini_server_conf_t *server_conf);
+mini_server_conf_t* mini_server_conf(mini_confdata_t *confdata, const char *module);
 #endif
